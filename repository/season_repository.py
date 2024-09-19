@@ -147,7 +147,7 @@ def get_season_by_year_and_player_id(s_year : int, p_id) -> Season:
     return question
 
 
-def get_season_and_player(s_year : int, position : str) -> Season:
+def get_season_and_player(s_year : int, position : str) -> {}:
     connection = get_db_connection()
     cursor = connection.cursor()
     cursor.execute("""

@@ -2,14 +2,14 @@ from dataclasses import asdict
 
 from flask import Blueprint, jsonify, request
 
-from model.player_model import Answer
-from repository.teem_repository import get_all_answers
-from repository.season_repository import get_all_questions, create_question
-from service.player_service import create_full_question_on_db
+
+# from repository.teem_repository import get_all_answers
+# from repository.season_repository import get_all_questions, create_question
+# from service.player_service import create_full_question_on_db
 
 question_blueprint = Blueprint("question",__name__)
 
-@question_blueprint.route("/question", methods=['GET'])
+@question_blueprint.route("/", methods=['GET'])
 def get_all():
     fighters = list(map(asdict, get_all_questions()))
     return jsonify(fighters), 200

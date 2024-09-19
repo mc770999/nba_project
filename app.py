@@ -1,5 +1,6 @@
 # from api.api import get_questions
 # from controller.answer_controller import answers_blueprint
+from controller.players_controller import player_blueprint
 from repository.player_repository import drop_all_tables, get_all_players
 from repository.sead import seed
 # from repository.teem_repository import get_all_answers, get_answers_by_question_id
@@ -18,8 +19,9 @@ app = Flask(__name__)
 if __name__ == "__main__":
     # drop_all_tables()
     # seed()
-    a = get_season_and_player(2024,"SG")
-    print({"a" :a})
+    app.register_blueprint(player_blueprint, url_prefix="/api/players")
+
+    app.run(debug=True)
     # user = get_user_by_id(5)
     # questions = get_question_by_id(4)
     # answer = get_answers_by_question_id(5)
