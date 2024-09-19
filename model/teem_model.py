@@ -4,10 +4,10 @@ from dataclasses import dataclass
 class Teem:
    name : str
    # :C, PF, SF, SG, PG
-   position_C : int
-   position_SF : int
-   position_PF : int
-   position_SG : int
-   position_PG : int
+   player_1 : int
+   player_2 : int
+   player_3 : int
+   player_4 : int
+   player_5 : int
 
    id: int = None

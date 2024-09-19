@@ -17,11 +17,11 @@ def create_teem_tables():
          CREATE TABLE IF NOT EXISTS teems (
         id SERIAL PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
-        position_c INTEGER NOT NULL,
-        position_sf INTEGER NOT NULL,
-        position_pf INTEGER NOT NULL,
-        position_sg INTEGER NOT NULL,
-        position_pg INTEGER NOT NULL,
+        player_1 INTEGER NOT NULL,
+        player_2 INTEGER NOT NULL,
+        player_3 INTEGER NOT NULL,
+        player_4 INTEGER NOT NULL,
+        player_5 INTEGER NOT NULL,
         FOREIGN KEY (position_c) REFERENCES players(id) ON DELETE CASCADE,
         FOREIGN KEY (position_sf) REFERENCES players(id) ON DELETE CASCADE,
         FOREIGN KEY (position_pf) REFERENCES players(id) ON DELETE CASCADE,
@@ -42,11 +42,11 @@ def create_teem(teem : Teem) -> int:
     cursor.execute("""
     INSERT INTO teems (
     name,
-    position_c,
-    position_sf,
-    position_pf,
-    position_sg,
-    position_pg
+    player_1,
+    player_2,
+    player_3,
+    player_4,
+    player_5
     ) VALUES (
         %s, %s, %s, %s, %s, %s
     );
@@ -60,6 +60,7 @@ def create_teem(teem : Teem) -> int:
 def get_all_teems() -> List[Teem]:
     connection = get_db_connection()
     cursor = connection.cursor()
+    breakpoint()
     cursor.execute("""
         select * from teems
         """)

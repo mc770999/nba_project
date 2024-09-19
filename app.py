@@ -1,6 +1,7 @@
 # from api.api import get_questions
 # from controller.answer_controller import answers_blueprint
 from controller.players_controller import player_blueprint
+from controller.teem_controller import teems_blueprint
 from repository.player_repository import drop_all_tables, get_all_players
 from repository.sead import seed
 # from repository.teem_repository import get_all_answers, get_answers_by_question_id
@@ -20,6 +21,7 @@ if __name__ == "__main__":
     # drop_all_tables()
     # seed()
     app.register_blueprint(player_blueprint, url_prefix="/api/players")
+    app.register_blueprint(teems_blueprint, url_prefix="/api/teems")
 
     app.run(debug=True)
     # user = get_user_by_id(5)
