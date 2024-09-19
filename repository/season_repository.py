@@ -9,47 +9,78 @@ def get_db_connection():
     return psycopg2.connect(SQLALCHEMY_DATABASE_URI,cursor_factory=RealDictCursor)
 
 
+# "id": 18229,
+#     "playerName": "A.J. Green",
+#     "position": "SG",
+#     "age": 24,
+#     "games": 56,
+#     "gamesStarted": 0,
+#     "minutesPg": 614.0,
+#     "fieldGoals": 83,
+#     "fieldAttempts": 196,
+#     "fieldPercent": 0.423,
+#     "threeFg": 69,
+#     "threeAttempts": 169,
+#     "threePercent": 0.408,
+#     "twoFg": 14,
+#     "twoAttempts": 27,
+#     "twoPercent": 0.519,
+#     "effectFgPercent": 0.599,
+#     "ft": 17,
+#     "ftAttempts": 19,
+#     "ftPercent": 0.895,
+#     "offensiveRb": 9,
+#     "defensiveRb": 55,
+#     "totalRb": 64,
+#     "assists": 30,
+#     "steals": 9,
+#     "blocks": 4,
+#     "turnovers": 12,
+#     "personalFouls": 49,
+#     "points": 252,
+#     "team": "MIL",
+#     "season": 2024,
+#     "playerId": "greenaj01"
+
 def create_seasons_tables():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute(
-        """
-         CREATE TABLE IF NOT EXISTS seasons (
-    id SERIAL PRIMARY KEY,
-    player_id INT,
-    season INT,
-    position VARCHAR(50),
-    age INT,
-    games INT,
-    games_started INT,
-    minutes_pg FLOAT,
-    field_goals INT,
-    field_attempts INT,
-    field_percent FLOAT,
-    three_fg INT,
-    three_attempts INT,
-    three_percent FLOAT,
-    two_fg INT,
-    two_attempts INT,
-    two_percent FLOAT,
-    effective_fg_percent FLOAT,
-    ft INT,
-    ft_attempts INT,
-    ft_percent FLOAT,
-    offensive_rb INT,
-    defensive_rb INT,
-    total_rb INT,
-    assists INT,
-    steals INT,
-    blocks INT,
-    turnovers INT,
-    personal_fouls INT,
-    points INT,
-    team VARCHAR(255),
-    FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE
-);
-        """
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS seasons (
+        id SERIAL PRIMARY KEY,
+        player_id INT,
+        season INT,
+        position VARCHAR(50),
+        age INT,
+        games INT,
+        games_started INT,
+        minutes_pg FLOAT,
+        field_goals INT,
+        field_attempts INT,
+        field_percent FLOAT,
+        three_fg INT,
+        three_attempts INT,
+        three_percent FLOAT,
+        two_fg INT,
+        two_attempts INT,
+        two_percent FLOAT,
+        effective_fg_percent FLOAT,
+        ft INT,
+        ft_attempts INT,
+        ft_percent FLOAT,
+        offensive_rb INT,
+        defensive_rb INT,
+        total_rb INT,
+        assists INT,
+        steals INT,
+        blocks INT,
+        turnovers INT,
+        personal_fouls INT,
+        points INT,
+        team VARCHAR(255),
+        FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE
     )
+""")
     conn.commit()
     cur.close()
     conn.close()
@@ -101,18 +132,18 @@ def get_all_seasons() -> List[Season]:
     return questions
 
 
-# def get_question_by_id(u_id : int) -> Season:
-#     connection = get_db_connection()
-#     cursor = connection.cursor()
-#     cursor.execute("""
-#             select * from questions where id = (%s)
-#             """,(u_id,))
-#     res = cursor.fetchone()
-#     question = Teem(**res)
-#     cursor.close()
-#     connection.close()
-#     return question
-#
+def get_season_by_year_and_(u_id : int) -> Season:
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+            select * from questions where id = (%s)
+            """,(u_id,))
+    res = cursor.fetchone()
+    question = Teem(**res)
+    cursor.close()
+    connection.close()
+    return question
+
 #
 #
 # def delete_question(u_id : int) -> int:

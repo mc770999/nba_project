@@ -1,7 +1,7 @@
 
 import requests
 
-from service.user_service import convert_to_user
+# from service.teem_service import convert_to_
 
 
 def get_data_api(url : str):

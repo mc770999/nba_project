@@ -5,6 +5,23 @@ from model.player_model import Player
 from typing import List
 
 
+def drop_all_tables():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    # Dropping tables in the correct order due to foreign key dependencies
+    cursor.execute('''
+        DROP TABLE IF EXISTS seasons;
+        DROP TABLE IF EXISTS teems;
+        
+        DROP TABLE IF EXISTS players;
+    ''')
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
 def get_db_connection():
     return psycopg2.connect(SQLALCHEMY_DATABASE_URI,cursor_factory=RealDictCursor)
 
@@ -15,9 +32,9 @@ def create_players_tables():
         """
          CREATE TABLE IF NOT EXISTS players (
     id SERIAL PRIMARY KEY,
-    player_name VARCHAR(255) UNIQUE NOT NULL
-);
-    )
+    name VARCHAR(255) NOT NULL,
+    positions VARCHAR(255) NOT NULL
+    );
         """
     )
     conn.commit()
@@ -29,14 +46,17 @@ def create_player(player : Player) -> int:
     connection = get_db_connection()
     cursor = connection.cursor()
     cursor.execute("""
-    insert into players (name) 
-    values (%s,) returning id
-    """,(player.name,))
+    insert into players (name,positions) 
+    values (%s,%s) returning id
+    """,(player.name,player.positions))
     new_id = cursor.fetchone()["id"]
     connection.commit()
     cursor.close()
     connection.close()
     return new_id
+
+
+
 
 def get_all_players() -> List[Player]:
     connection = get_db_connection()
@@ -55,9 +75,23 @@ def get_player_by_id(u_id : int) -> Player:
     connection = get_db_connection()
     cursor = connection.cursor()
     cursor.execute("""
-            select * from users where id = (%s)
+            SELECT * FROM players WHERE id = (%s) ;
             """,(u_id,))
     res = cursor.fetchone()
+    user = Player(**res)
+    cursor.close()
+    connection.close()
+    return user
+
+def get_player_by_name(p_name : str) -> Player:
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+            SELECT * FROM players WHERE name = (%s);
+            """,(p_name,))
+    res = cursor.fetchone()
+    if res is None or len(res) == 0:
+        return False
     user = Player(**res)
     cursor.close()
     connection.close()

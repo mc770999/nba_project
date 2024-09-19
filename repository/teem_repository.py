@@ -21,7 +21,7 @@ def create_teem_tables():
         position_sf INTEGER NOT NULL,
         position_pf INTEGER NOT NULL,
         position_sg INTEGER NOT NULL,
-        position_pg INTEGER NOT NULL
+        position_pg INTEGER NOT NULL,
         FOREIGN KEY (position_c) REFERENCES players(id) ON DELETE CASCADE,
         FOREIGN KEY (position_sf) REFERENCES players(id) ON DELETE CASCADE,
         FOREIGN KEY (position_pf) REFERENCES players(id) ON DELETE CASCADE,
