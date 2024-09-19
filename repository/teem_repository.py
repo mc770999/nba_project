@@ -22,11 +22,11 @@ def create_teem_tables():
         player_3 INTEGER NOT NULL,
         player_4 INTEGER NOT NULL,
         player_5 INTEGER NOT NULL,
-        FOREIGN KEY (position_c) REFERENCES players(id) ON DELETE CASCADE,
-        FOREIGN KEY (position_sf) REFERENCES players(id) ON DELETE CASCADE,
-        FOREIGN KEY (position_pf) REFERENCES players(id) ON DELETE CASCADE,
-        FOREIGN KEY (position_sg) REFERENCES players(id) ON DELETE CASCADE,
-        FOREIGN KEY (position_pg) REFERENCES players(id) ON DELETE CASCADE
+        FOREIGN KEY (player_1) REFERENCES players(id) ON DELETE CASCADE,
+        FOREIGN KEY (player_2) REFERENCES players(id) ON DELETE CASCADE,
+        FOREIGN KEY (player_3) REFERENCES players(id) ON DELETE CASCADE,
+        FOREIGN KEY (player_4) REFERENCES players(id) ON DELETE CASCADE,
+        FOREIGN KEY (player_5) REFERENCES players(id) ON DELETE CASCADE
     )
         """
     )
@@ -49,13 +49,14 @@ def create_teem(teem : Teem) -> int:
     player_5
     ) VALUES (
         %s, %s, %s, %s, %s, %s
-    );
-    """, (teem.name, teem.position_C,teem.position_SF,teem.position_PF,teem.position_SG,teem.position_PG))
+    ) returning id;
+    """, (teem.name, teem.player_1,teem.player_2,teem.player_3,teem.player_4,teem.player_5))
     new_id = cursor.fetchone()["id"]
+    teem.id = new_id
     connection.commit()
     cursor.close()
     connection.close()
-    return new_id
+    return teem
 
 def get_all_teems() -> List[Teem]:
     connection = get_db_connection()
@@ -70,6 +71,24 @@ def get_all_teems() -> List[Teem]:
     connection.close()
     return teems
 
+
+def update_teem(teem: Teem) -> None:
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+    UPDATE teems
+    SET 
+        player_1 = %s,
+        player_2 = %s,
+        player_3 = %s,
+        player_4 = %s,
+        player_5 = %s
+    WHERE id = %s returning id;
+    """, (teem.player_1, teem.player_2, teem.player_3, teem.player_4, teem.player_5, teem.id))
+    connection.commit()
+    cursor.close()
+    connection.close()
+    return teem
 
 # def get_answers_by_question_id(u_id : int) -> Answer:
 #     connection = get_db_connection()

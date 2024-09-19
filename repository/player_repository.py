@@ -11,10 +11,8 @@ def drop_all_tables():
 
     # Dropping tables in the correct order due to foreign key dependencies
     cursor.execute('''
-        DROP TABLE IF EXISTS seasons;
+
         DROP TABLE IF EXISTS teems;
-        
-        DROP TABLE IF EXISTS players;
     ''')
 
     connection.commit()

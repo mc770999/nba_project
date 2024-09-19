@@ -14,11 +14,13 @@ from repository.season_repository import get_season_and_player
 from flask import Flask
 
 from repository.season_repository import get_all_seasons, get_season_by_year_and_player_id
+from repository.teem_repository import create_teem_tables
 
 app = Flask(__name__)
 
 if __name__ == "__main__":
-    # drop_all_tables()
+    drop_all_tables()
+    create_teem_tables()
     # seed()
     app.register_blueprint(player_blueprint, url_prefix="/api/players")
     app.register_blueprint(teems_blueprint, url_prefix="/api/teems")
