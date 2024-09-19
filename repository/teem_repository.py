@@ -61,7 +61,6 @@ def create_teem(teem : Teem) -> int:
 def get_all_teems() -> List[Teem]:
     connection = get_db_connection()
     cursor = connection.cursor()
-    breakpoint()
     cursor.execute("""
         select * from teems
         """)
