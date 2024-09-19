@@ -2,14 +2,14 @@ from dataclasses import asdict
 
 from flask import Blueprint, jsonify, request
 
-from model.player_model import Answer
-from repository.teem_repository import get_all_answers
 
-answers_blueprint = Blueprint("answers", __name__)
+from repository.season_repository import get_season_and_player
 
-@answers_blueprint.route("/", methods=['GET'])
-def get_all():
-    fighters = list(map(asdict, get_all_answers()))
+season_blueprint = Blueprint("answers", __name__)
+
+@season_blueprint.route("/", methods=['GET'])
+def get_all(year,position):
+    fighters = list(map(asdict, get_season_and_player))
     return jsonify(fighters), 200
 
 

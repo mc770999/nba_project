@@ -1,3 +1,6 @@
+from dataclasses import asdict
+
+from model.season_model import Season
 from repository.player_repository import create_player, get_player_by_name
 from repository.season_repository import create_season
 from service.season_service import convert_to_season

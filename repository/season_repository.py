@@ -4,6 +4,8 @@ from config.sql_config import SQLALCHEMY_DATABASE_URI
 from model.season_model import Season
 from typing import List
 
+from utilis.user_utils import get_atr, add_ppg
+
 
 def get_db_connection():
     return psycopg2.connect(SQLALCHEMY_DATABASE_URI,cursor_factory=RealDictCursor)
@@ -132,19 +134,37 @@ def get_all_seasons() -> List[Season]:
     return questions
 
 
-def get_season_by_year_and_(u_id : int) -> Season:
+def get_season_by_year_and_player_id(s_year : int, p_id) -> Season:
     connection = get_db_connection()
     cursor = connection.cursor()
     cursor.execute("""
-            select * from questions where id = (%s)
-            """,(u_id,))
+            select * from seasons where season = (%s) and player_id = (%s)
+            """,(s_year,p_id))
     res = cursor.fetchone()
-    question = Teem(**res)
+    question = Season(**res)
     cursor.close()
     connection.close()
     return question
 
-#
+
+def get_season_and_player(s_year : int, position : str) -> Season:
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+            SELECT seasons.*, players.*
+            FROM seasons
+            INNER JOIN players ON seasons.player_id = players.id
+            WHERE seasons.season = (%s) AND seasons.position like (%s);
+            """,(s_year,position))
+    res = cursor.fetchall()
+    all_res = [add_ppg(get_atr({**r}),res) for r in res]
+    cursor.close()
+    connection.close()
+    return all_res
+
+
+
+
 #
 # def delete_question(u_id : int) -> int:
 #     connection = get_db_connection()

@@ -7,17 +7,18 @@ from repository.sead import seed
 # from repository.user_answer_repository import get_user_answer_by_id
 
 # from repository.player_repository import get_all_users, get_user_by_id
+from repository.season_repository import get_season_and_player
 
 from flask import Flask
 
-from repository.season_repository import get_all_seasons
+from repository.season_repository import get_all_seasons, get_season_by_year_and_player_id
 
 app = Flask(__name__)
 
 if __name__ == "__main__":
     # drop_all_tables()
     # seed()
-
+    a = get_season_and_player(2024,"SG")
     print({"a" :a})
     # user = get_user_by_id(5)
     # questions = get_question_by_id(4)
