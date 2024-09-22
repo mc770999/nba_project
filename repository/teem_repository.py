@@ -89,28 +89,28 @@ def update_teem(teem: Teem) -> None:
     connection.close()
     return teem
 
-# def get_answers_by_question_id(u_id : int) -> Answer:
-#     connection = get_db_connection()
-#     cursor = connection.cursor()
-#     cursor.execute("""
-#             select * from answers where question_id = (%s)
-#             """,(u_id,))
-#     res = cursor.fetchall()
-#     answers = [Answer(**u) for  u in res]
-#     cursor.close()
-#     connection.close()
-#     return answers
+def get_teem_by_id(u_id : int) -> Teem:
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+            select * from teems where id = (%s)
+            """,(u_id,))
+    res = cursor.fetchone()
+    teem = Teem(**res)
+    cursor.close()
+    connection.close()
+    return teem
+
+
 #
-#
-#
-# def delete_answer(u_id : int) -> int:
-#     connection = get_db_connection()
-#     cursor = connection.cursor()
-#     cursor.execute("""
-#     DELETE FROM answers
-#     WHERE id = (%s);
-#     """, (u_id,))
-#     connection.commit()
-#     cursor.close()
-#     connection.close()
-#     return u_id
+def delete_teem(u_id : int) -> int:
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("""
+    DELETE FROM teems
+    WHERE id = (%s);
+    """, (u_id,))
+    connection.commit()
+    cursor.close()
+    connection.close()
+    return u_id

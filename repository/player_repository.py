@@ -5,19 +5,7 @@ from model.player_model import Player
 from typing import List
 
 
-def drop_all_tables():
-    connection = get_db_connection()
-    cursor = connection.cursor()
 
-    # Dropping tables in the correct order due to foreign key dependencies
-    cursor.execute('''
-
-        DROP TABLE IF EXISTS teems;
-    ''')
-
-    connection.commit()
-    cursor.close()
-    connection.close()
 
 
 def get_db_connection():

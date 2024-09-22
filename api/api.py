@@ -13,7 +13,7 @@ def get_data_api(url : str):
         print('Request failed:', e)
 
 def get_season(n : int):
-    users_url = f"http://b8c40s8.143.198.70.30.sslip.io/api/PlayerDataTotals/query?season={n}&&pageSize=1000"
+    users_url = f"http://b8c40s8.143.198.70.30.sslip.io/api/PlayerDataTotals/query?season={n}&&pageSize=10"
     return get_data_api(users_url)
 
 
